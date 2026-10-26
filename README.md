@@ -1,7 +1,6 @@
 # Metodología de preparación y limpieza de datos
 
 **Proyecto:** Brecha digital y condición de pobreza en los hogares salvadoreños  
-**Criterio:** 1. Datos (15 %)  
 **Fuente:** EHPM 2025; archivo de trabajo `Base de datos EHPM 2025.sav` del proyecto original.  
 **Unidad de análisis:** hogar  
 **Producto final:** `dataset_Brecha_Digital_Proyecto.csv`
