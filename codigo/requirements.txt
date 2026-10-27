@@ -1,4 +1,3 @@
 pandas>=2.0
 numpy>=1.24
-# Solo para leer directamente el SPSS original (.sav), opcional:
-# pyreadstat>=1.2
+pyreadstat>=1.2
