@@ -104,3 +104,14 @@ python3 codigo/probar_entrega.py \
 
 
 ```
+
+## 9. Cuadro de mando (Fase II)
+
+La aplicación interactiva está en `dashboard/`. Para ejecutarla:
+
+```
+pip install -r dashboard/requirements.txt
+streamlit run dashboard/app.py
+```
+
+Instrucciones de publicación en Streamlit Cloud y decisiones de diseño: ver `dashboard/README.md`.
