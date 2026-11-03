@@ -46,8 +46,9 @@ Cualquier `git push` a `main` actualiza la app en línea automáticamente.
 ## Decisiones de diseño (resumen para la adenda IEEE)
 
 - Solo canales precisos: **posición y longitud**. Sin pasteles, sin 3D, ejes de porcentaje desde 0.
-- Color semántico y mínimo: azul = foco/internet, naranja = contraste (computadora, rural),
-  gris = contexto. Paleta validada para daltonismo.
+- Color semántico y mínimo, con un solo significado en todo el tablero: azul = acceso
+  (internet, urbano), naranja = alerta (rural, departamentos críticos y priorizados, selección),
+  gris = contexto (incluida la computadora). Paleta validada para daltonismo.
 - Etiquetas directas selectivas y línea de referencia del promedio en lugar de leyendas extra.
 - **Sin variable temporal**: la EHPM 2025 es de corte transversal, por eso el filtro «tiempo» de
   la consigna se sustituye por filtros territoriales y socioeconómicos.

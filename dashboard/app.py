@@ -39,10 +39,10 @@ RUTA_DATOS = Path(__file__).resolve().parent.parent / "DatosLimpios" / "dataset_
 
 # Paleta semántica (validada para daltonismo; ver adenda IEEE, sección V-B).
 # El color solo codifica significado; todo lo demás va en gris.
-AZUL = "#2a78d6"      # foco / internet / selección
-NARANJA = "#eb6834"   # segunda categoría (computadora, rural)
+AZUL = "#2a78d6"      # internet / urbano
+NARANJA = "#eb6834"   # segunda categoría (rural), foco, seleccion, departamentos críticos
 GRIS = "#b4b2ab"      # contexto, sin selección
-GRIS_TXT = "#52514e"  # texto secundario y líneas de referencia
+GRIS_TXT = "#52514e"  # texto secundario y líneas de referencia y computadora
 GRIS_TENUE = "#e2e0da"  # segmentos con muestra insuficiente
 N_MINIMO = 30          # tamaño muestral mínimo para considerar fiable un segmento
 
@@ -336,15 +336,15 @@ c_izq, c_der = st.columns([1.15, 1], gap="large")
 with c_izq:
     st.markdown("**Brecha digital por departamento**")
     st.caption("Haz clic en una o varias barras (Shift + clic) para filtrar todo el tablero. "
-               "Azul = las 3 tasas más altas; línea punteada = promedio de la vista.")
+               "Naranja = las 3 tasas más altas; línea punteada = promedio de la vista.")
     dep = resumen_por(df_f_sin_sel, ["r004"]).sort_values("pct_brecha")
     ref = pct(df_f_sin_sel, "BRECHA_DIGITAL")
     seleccion = st.session_state.sel_deptos
 
     def color_dep(row):
         if seleccion:
-            return AZUL if row.r004 in seleccion else GRIS
-        return AZUL if row.r004 in top_tasa else GRIS
+            return NARANJA  if row.r004 in seleccion else GRIS
+        return NARANJA if row.r004 in top_tasa else GRIS
 
     top_tasa = set(dep[dep.n >= N_MINIMO].nlargest(3, "pct_brecha").r004)
     # Muestra pequeña → tono atenuado (no se usa opacidad por barra: rompe la selección por clic en Plotly)
@@ -382,7 +382,7 @@ with c_der:
     q["etiqueta"] = q.quintil_ingreso.astype(str)
     fig_q = go.Figure()
     for col, nombre, color, pos in [("pct_internet", "Internet", AZUL, "top center"),
-                                    ("pct_computadora", "Computadora", NARANJA, "bottom center")]:
+                                    ("pct_computadora", "Computadora", GRIS_TXT, "bottom center")]:
         fig_q.add_scatter(
             x=q.etiqueta, y=q[col], name=nombre, mode="lines+markers+text",
             line=dict(color=color, width=2.5), marker=dict(size=9, color=color, line=dict(color="white", width=2)),
@@ -524,7 +524,7 @@ o puntos de acceso comunitario.
         tabla = tabla.sort_values("hogares_brecha")
         fig_p = go.Figure(go.Bar(
             x=tabla.hogares_brecha, y=tabla.r004, orientation="h",
-            marker=dict(color=[AZUL if d in set(top3.r004) else GRIS for d in tabla.r004]),
+            marker=dict(color=[NARANJA if d in set(top3.r004) else GRIS for d in tabla.r004]),
             text=[f"{fmt_n(v)}  ({p:.0f} %)" for v, p in zip(tabla.hogares_brecha, tabla.pct_brecha)],
             textposition="outside", textfont=dict(color=GRIS_TXT, size=12), cliponaxis=False,
             customdata=np.stack([tabla.cuota_brecha, tabla.pct_brecha], axis=1),
@@ -535,7 +535,7 @@ o puntos de acceso comunitario.
         layout_base(fig_p, 330, showlegend=False)
         fig_p.update_xaxes(visible=False, range=[0, tabla.hogares_brecha.max() * 1.35])
         st.plotly_chart(fig_p, width="stretch", config=PLOT_CFG)
-        st.caption("Etiqueta: hogares estimados en brecha (tasa del departamento). Azul = top 3 por impacto.")
+        st.caption("Etiqueta: hogares estimados en brecha (tasa del departamento). Naranja = top 3 por impacto.")
 else:
     st.info("No hay departamentos con muestra suficiente (n ≥ 30) para emitir una recomendación.")
 
